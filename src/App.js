@@ -1,13 +1,16 @@
 import React, {Fragment} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Navegacao from './navegacao'
 
 import Cabecalho from './cabecalho';
 
 function App() {
   return ( 
     <Fragment>   
-      <Cabecalho />
+      <Cabecalho>
+        <Navegacao links={['mensagens', 'notificacoes', 'coisas loucas']} />
+      </Cabecalho>
 
       <div className="App">
         <header className="App-header">

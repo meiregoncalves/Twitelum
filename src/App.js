@@ -1,35 +1,95 @@
-import React, {Fragment} from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Navegacao from './navegacao'
+import React, { Component, Fragment } from 'react';
+import Cabecalho from './components/Cabecalho'
+import NavMenu from './components/NavMenu'
+import Dashboard from './components/Dashboard'
+import Widget from './components/Widget'
+import TrendsArea from './components/TrendsArea'
+import Tweet from './components/Tweet'
 
-import Cabecalho from './cabecalho';
+class App extends Component {
+    state = {
+        novoTweet: '',
+        listaTweets: []
+    }
 
-function App() {
-  return ( 
-    <Fragment>   
-      <Cabecalho>
-        <Navegacao links={['mensagens', 'notificacoes', 'coisas loucas']} />
-      </Cabecalho>
+    handleCriaTweet = (evento) => {
+        evento.preventDefault();
 
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    </Fragment>
-  );
+        this.setState({
+            //sprad operation
+            listaTweets: [this.state.novoTweet, ...this.state.listaTweets],
+            novoTweet: ''
+        }, () => console.log(this.state.listaTweets));
+    }
+
+    novoTweetEstaValido() {
+        const novoTweetLength = this.state.novoTweet.length;
+
+        return novoTweetLength > 0 && novoTweetLength <= 140;
+    }
+
+    render() {
+        //destructuring
+        const { novoTweet, listaTweets } = this.state;
+
+        return (
+            <Fragment>
+                <Cabecalho>
+                    <NavMenu usuario="@omariosouto" />
+                </Cabecalho>
+                <div className="container">
+                    <Dashboard>
+                        <Widget>
+                            <form className="novoTweet" onSubmit={this.handleCriaTweet}>
+                                <div className="novoTweet__editorArea">
+                                    <span className={`novoTweet__status ${this.novoTweetEstaValido()
+                                        ? '' : 'novoTweet__status--invalido'}`}>
+                                        {novoTweet.length}/140
+                            </span>
+                                    <textarea
+                                        className="novoTweet__editor"
+                                        placeholder="O que está acontecendo?"
+                                        onChange={(evento) => {
+                                            //console.log(evento.target.value);
+                                            this.setState({
+                                                novoTweet: evento.target.value
+                                            });
+                                        }}
+                                        value={novoTweet}
+                                    ></textarea>
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="novoTweet__envia"
+                                    disabled={!this.novoTweetEstaValido()}
+                                >Tweetar</button>
+                            </form>
+                        </Widget>
+                        <Widget>
+                            <TrendsArea />
+                        </Widget>
+                    </Dashboard>
+                    <Dashboard posicao="centro">
+                        <Widget>
+                            <div className="tweetsArea">
+                                {listaTweets.map((texto, index) => (
+                                    <Tweet
+                                        key={`${texto}${index}`}
+                                        username="@meiregoncalves"
+                                        nome="Meire"
+                                        qtdelikes="20"
+                                        avatarurl="https://static.escolakids.uol.com.br/2019/07/coala.jpg" >
+                                        {texto}
+                                    </Tweet>
+                                ))}
+                            </div>
+                        </Widget>
+
+                    </Dashboard>
+                </div>
+            </Fragment>
+        );
+    }
 }
 
 export default App;

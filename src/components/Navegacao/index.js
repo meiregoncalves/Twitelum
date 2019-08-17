@@ -11,7 +11,7 @@ export default function Navegacao(props) {
         <nav>
             <ul>
                 {props.links.map(link => (
-                    <li>
+                    <li key={index}>
                         <a href="#">{link}</a>
                     </li>
                 ))}

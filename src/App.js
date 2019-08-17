@@ -6,7 +6,7 @@ import Cabecalho from './cabecalho';
 
 function App() {
   return ( 
-    <Fragment>  
+    <Fragment>   
       <Cabecalho />
 
       <div className="App">

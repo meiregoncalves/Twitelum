@@ -72,6 +72,10 @@ class App extends Component {
                     <Dashboard posicao="centro">
                         <Widget>
                             <div className="tweetsArea">
+                                {/* truthy */}
+                                {!listaTweets.length && (
+                                    <p>Sem tweets</p>
+                                )}
                                 {listaTweets.map((texto, index) => (
                                     <Tweet
                                         key={`${texto}${index}`}

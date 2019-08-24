@@ -21,7 +21,7 @@ class LoginPage extends Component {
 
         //IE 6 -> axios
         fetch(
-            'https://twitelum-api.herokuapp.com/login',
+            'https://api-twitelum.herokuapp.com/login',
             {
                 method: 'POST',
                 body: JSON.stringify( { login, senha } )

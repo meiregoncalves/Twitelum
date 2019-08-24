@@ -14,14 +14,41 @@ class App extends Component {
         listaTweets: []
     }
 
+    handleGetTweets = () => {
+        console.log('passei aqui');
+        fetch(
+            'https://api-twitelum.herokuapp.com/tweets',
+            {
+                method: 'GET'
+            }
+        ).then(async (resposta) => {
+            console.log(resposta);
+        });         
+    }
+
     handleCriaTweet = (evento) => {
         evento.preventDefault();
+        const conteudo = this.state.novoTweet;
 
-        this.setState({
-            //sprad operation
-            listaTweets: [this.state.novoTweet, ...this.state.listaTweets],
-            novoTweet: ''
-        }, () => console.log(this.state.listaTweets));
+        fetch(
+            'https://api-twitelum.herokuapp.com/tweets?X-AUTH-TOKEN=' + localStorage.getItem('token'),
+            {
+                method: 'POST',
+                body: JSON.stringify({conteudo})
+            }
+        ).then((resposta) => {     
+            resposta.json().then((data) => {
+                console.log(data.conteudo);
+
+                this.setState({
+                    //sprad operation
+                    listaTweets: [data, ...this.state.listaTweets],
+                    novoTweet: ''
+                }, () => console.log(this.state.listaTweets));                
+            });                
+        }).catch((err) => {
+            console.log("Deu ruim")
+        });
     }
 
     novoTweetEstaValido() {
@@ -42,7 +69,7 @@ class App extends Component {
                 <div className="container">
                     <Dashboard>
                         <Widget>
-                            <form className="novoTweet" onSubmit={this.handleCriaTweet}>
+                            <form className="novoTweet" onSubmit={this.handleCriaTweet} onLoad={this.handleGetTweets}>
                                 <div className="novoTweet__editorArea">
                                     <span className={`novoTweet__status ${this.novoTweetEstaValido()
                                         ? '' : 'novoTweet__status--invalido'}`}>
@@ -78,19 +105,18 @@ class App extends Component {
                                 {!listaTweets.length && (
                                     <p>Sem tweets</p>
                                 )}
-                                {listaTweets.map((texto, index) => (
+                                {listaTweets.map((tweet, index) => (
                                     <Tweet
-                                        key={`${texto}${index}`}
-                                        username="@meiregoncalves"
-                                        nome="Meire"
-                                        qtdelikes="20"
+                                        key={`${tweet}${index}`}
+                                        username= { `${tweet.usuario.nome} ${tweet.usuario.sobrenome}`}
+                                        nome={tweet.usuario.login}
+                                        qtdelikes={tweet.qtdelikes}
                                         avatarurl="https://static.escolakids.uol.com.br/2019/07/coala.jpg" >
-                                        {texto}
+                                        {tweet.conteudo}
                                     </Tweet>
                                 ))}
                             </div>
                         </Widget>
-
                     </Dashboard>
                 </div>                
             </Fragment>

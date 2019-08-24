@@ -6,6 +6,8 @@ import Widget from './../components/Widget'
 import TrendsArea from './../components/TrendsArea'
 import Tweet from './../components/Tweet'
 
+import { NotificacaoContext } from './../contexts/notificacao'
+
 class App extends Component {
     state = {
         novoTweet: '',
@@ -90,7 +92,7 @@ class App extends Component {
                         </Widget>
 
                     </Dashboard>
-                </div>
+                </div>                
             </Fragment>
         );
     }

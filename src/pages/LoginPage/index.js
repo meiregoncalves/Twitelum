@@ -2,10 +2,13 @@ import React, { Component, Fragment } from 'react'
 import Cabecalho from '../../components/Cabecalho'
 import Widget from '../../components/Widget'
 import If from '../../components/if'
+import { NotificacaoContext } from './../../contexts/notificacao';
 
 import './loginPage.css'
 
 class LoginPage extends Component {
+    static contextType = NotificacaoContext;
+
     state = {
         errormessage: ''
     }
@@ -32,6 +35,7 @@ class LoginPage extends Component {
 
             if (resposta.ok)
             {
+                this.context.setMensagem("Bem vindo!")
                 localStorage.setItem('token', data.token);
                 this.props.history.push('/');
             }
@@ -47,6 +51,7 @@ class LoginPage extends Component {
 
     render() {
         console.log(this.props.history);
+        console.log(this.context);
         return (
             <Fragment>
                 <Cabecalho />

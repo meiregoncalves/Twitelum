@@ -1,31 +1,33 @@
 import React, { Component } from "react";
 import navMenuStyles from "./navMenu.module.css";
+import { Link } from 'react-router-dom';
 
 export default class NavMenu extends Component {
+
   render() {
     return (
       <nav className={navMenuStyles.navMenu}>
         <ul className={navMenuStyles.navMenu__lista}>
           <li className={navMenuStyles.navMenu__item}>
-            <a className={navMenuStyles.navMenu__link} href="/">
+            <Link className={navMenuStyles.navMenu__link} to="/">
               Bem vindo(a): <br />
               <strong>{this.props.usuario}</strong>
-            </a>
+            </Link>
           </li>
           <li className={navMenuStyles.navMenu__item}>
-            <a className={navMenuStyles.navMenu__link} href="/">
+            <Link className={navMenuStyles.navMenu__link} to="/">
               Página Inicial
-            </a>
+            </Link>
           </li>
           <li className={navMenuStyles.navMenu__item}>
-            <a className={navMenuStyles.navMenu__link} href="/hashtags">
+            <Link className={navMenuStyles.navMenu__link} to="/hashtags">
               Hashtags
-            </a>
+            </Link>
           </li>
           <li className={navMenuStyles.navMenu__item}>
-            <a className={navMenuStyles.navMenu__link} href="/logout">
+            <Link className={navMenuStyles.navMenu__link} to="/logout">
               Logout
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

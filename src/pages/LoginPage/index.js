@@ -28,23 +28,20 @@ class LoginPage extends Component {
 
             //if (!resposta.ok) throw new Error();
 
-            return {
-                success: resposta.ok,
-                data: await resposta.json()
-            }
-        }).then(objresposta => {
-            //console.log('body vindo da resposta.json(): ', data);
+            const data =  await resposta.json()
 
-            if (objresposta.success) {
-                localStorage.setItem('token', objresposta.data.token);
+            if (resposta.ok)
+            {
+                localStorage.setItem('token', data.token);
                 this.props.history.push('/');
             }
-            else {
-                //console.log(objresposta.data);
+            else 
+            {
+                //console.log(data);
                 this.setState({
-                    errormessage: objresposta.data.message
+                    errormessage: data.message
                 });
-            }
+            }        
         }).catch(err => console.log(err));
     }
 

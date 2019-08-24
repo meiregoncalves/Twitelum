@@ -110,8 +110,8 @@ class App extends Component {
                                         key={`${tweet}${index}`}
                                         username= { `${tweet.usuario.nome} ${tweet.usuario.sobrenome}`}
                                         nome={tweet.usuario.login}
-                                        qtdelikes={tweet.qtdelikes}
-                                        avatarurl="https://static.escolakids.uol.com.br/2019/07/coala.jpg" >
+                                        qtdelikes={tweet.totalLikes}
+                                        avatarurl={tweet.foto} >
                                         {tweet.conteudo}
                                     </Tweet>
                                 ))}

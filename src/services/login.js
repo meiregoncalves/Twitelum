@@ -1,7 +1,9 @@
+import config from '../config'
+
 export function logar(login, senha) {
         //IE 6 -> axios
         return fetch(
-            'https://twitelum-api.herokuapp.com/login',
+            `${config.api}/login`,
             {
                 method: 'POST',
                 body: JSON.stringify( { login, senha } )

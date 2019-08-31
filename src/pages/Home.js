@@ -15,7 +15,7 @@ class App extends Component {
         listaTweets: []
     }
 
-    componentDidMount() {
+    componentDidMount() { //apos construction e render (apenas na primeira renderização)
         const token = localStorage.getItem('token');
         tweetService.listaTweets(token)
         .then((listadeTweets) => {
@@ -25,17 +25,9 @@ class App extends Component {
         });
     }
 
-    handleGetTweets = () => {
-        console.log('passei aqui');
-        fetch(
-            'https://api-twitelum.herokuapp.com/tweets',
-            {
-                method: 'GET'
-            }
-        ).then(async (resposta) => {
-            console.log(resposta);
-        });         
-    }
+    componentDidUpdate (){ } //apos atualização do componente (mudança de estado)
+
+    componentWillUnmount() { } //antes de o componente ser desmontado
 
     handleCriaTweet = (evento) => {
         evento.preventDefault();
@@ -55,26 +47,15 @@ class App extends Component {
         }).catch((err) => {
             console.log("Deu ruim")
         });
+    }
 
-/*         fetch(
-            'https://api-twitelum.herokuapp.com/tweets?X-AUTH-TOKEN=' + localStorage.getItem('token'),
-            {
-                method: 'POST',
-                body: JSON.stringify({conteudo})
-            }
-        ).then((resposta) => {     
-            resposta.json().then((data) => {
-                console.log(data.conteudo);
+    onDeleteTweet = (tweetId) => {
+        const { listaTweets } = this.state;
 
-                this.setState({
-                    //sprad operation
-                    listaTweets: [data, ...this.state.listaTweets],
-                    novoTweet: ''
-                }, () => console.log(this.state.listaTweets));                
-            });                
-        }).catch((err) => {
-            console.log("Deu ruim")
-        }); */
+        this.setState({
+            listaTweets: listaTweets
+            .filter((tweet) => tweet._id !== tweetId)
+        })
     }
 
     novoTweetEstaValido() {
@@ -95,7 +76,7 @@ class App extends Component {
                 <div className="container">
                     <Dashboard>
                         <Widget>
-                            <form className="novoTweet" onSubmit={this.handleCriaTweet} onLoad={this.handleGetTweets}>
+                            <form className="novoTweet" onSubmit={this.handleCriaTweet}>
                                 <div className="novoTweet__editorArea">
                                     <span className={`novoTweet__status ${this.novoTweetEstaValido()
                                         ? '' : 'novoTweet__status--invalido'}`}>
@@ -133,11 +114,16 @@ class App extends Component {
                                 )}
                                 {listaTweets.map((tweet, index) => (
                                     <Tweet
-                                        key={`${tweet}${index}`}
+                                        key={tweet._id}
+                                        id={tweet._id}
                                         username= { `${tweet.usuario.nome} ${tweet.usuario.sobrenome}`}
                                         nome={tweet.usuario.login}
-                                        qtdelikes={tweet.totalLikes}
-                                        avatarurl={tweet.usuario.foto} >
+                                        totalLikes={tweet.totalLikes}
+                                        removivel={tweet.removivel}
+                                        likeado={tweet.likeado}
+                                        avatarurl={tweet.usuario.foto}
+                                        onDelete={this.onDeleteTweet}
+                                    >
                                         {tweet.conteudo}
                                     </Tweet>
                                 ))}

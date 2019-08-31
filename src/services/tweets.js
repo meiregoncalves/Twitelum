@@ -1,6 +1,8 @@
+import config from '../config'
+
 export function criaTweet ({ token, conteudo }) {
     return fetch(
-        'https://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=' + token,
+        `${config.api}/tweets?X-AUTH-TOKEN=${token}`,
         {
             method: 'POST',
             body: JSON.stringify({conteudo})
@@ -10,10 +12,28 @@ export function criaTweet ({ token, conteudo }) {
 
 export function listaTweets(token) {
     return fetch(
-        `https://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${token}`
+        `${config.api}/tweets?X-AUTH-TOKEN=${token}`
     ).then(response => response.json())
     .then(data => {
         console.log(data);
         return data;
     });
+}
+
+export function curtirTweet ({ token, tweetId }) {
+    return fetch(
+        `${config.api}/tweets/${tweetId}/like?X-AUTH-TOKEN=${token}`,
+        {
+            method: 'POST'
+        }
+    ).then(response  => response.json())             
+}
+
+export function deletaTweet ({ token, tweetId }) {
+    return fetch(
+        `${config.api}/tweets/${tweetId}?X-AUTH-TOKEN=${token}`,
+        {
+            method: 'DELETE'
+        }
+    ).then(response  => response.json())             
 }

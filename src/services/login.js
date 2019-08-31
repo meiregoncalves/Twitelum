@@ -1,7 +1,7 @@
 export function logar(login, senha) {
         //IE 6 -> axios
         return fetch(
-            'https://api-twitelum.herokuapp.com/login',
+            'https://twitelum-api.herokuapp.com/login',
             {
                 method: 'POST',
                 body: JSON.stringify( { login, senha } )

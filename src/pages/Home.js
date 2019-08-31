@@ -15,6 +15,16 @@ class App extends Component {
         listaTweets: []
     }
 
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        tweetService.listaTweets(token)
+        .then((listadeTweets) => {
+            this.setState({
+                listaTweets: listadeTweets
+            })
+        });
+    }
+
     handleGetTweets = () => {
         console.log('passei aqui');
         fetch(

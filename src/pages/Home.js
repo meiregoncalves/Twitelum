@@ -5,6 +5,7 @@ import Dashboard from './../components/Dashboard'
 import Widget from './../components/Widget'
 import TrendsArea from './../components/TrendsArea'
 import Tweet from './../components/Tweet'
+import * as tweetService from '../services/tweets'
 
 import { NotificacaoContext } from './../contexts/notificacao'
 
@@ -29,8 +30,23 @@ class App extends Component {
     handleCriaTweet = (evento) => {
         evento.preventDefault();
         const conteudo = this.state.novoTweet;
+        const token = localStorage.getItem('token');
 
-        fetch(
+        tweetService.criaTweet( { 
+            token,  
+            conteudo 
+        })
+        .then((tweetcriado) => {
+            this.setState({
+                //sprad operation
+                listaTweets: [tweetcriado, ...this.state.listaTweets],
+                novoTweet: ''
+            }, () => console.log(this.state.listaTweets));  
+        }).catch((err) => {
+            console.log("Deu ruim")
+        });
+
+/*         fetch(
             'https://api-twitelum.herokuapp.com/tweets?X-AUTH-TOKEN=' + localStorage.getItem('token'),
             {
                 method: 'POST',
@@ -48,7 +64,7 @@ class App extends Component {
             });                
         }).catch((err) => {
             console.log("Deu ruim")
-        });
+        }); */
     }
 
     novoTweetEstaValido() {
@@ -111,7 +127,7 @@ class App extends Component {
                                         username= { `${tweet.usuario.nome} ${tweet.usuario.sobrenome}`}
                                         nome={tweet.usuario.login}
                                         qtdelikes={tweet.totalLikes}
-                                        avatarurl={tweet.foto} >
+                                        avatarurl={tweet.usuario.foto} >
                                         {tweet.conteudo}
                                     </Tweet>
                                 ))}

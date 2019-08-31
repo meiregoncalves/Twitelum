@@ -3,6 +3,8 @@ import Cabecalho from '../../components/Cabecalho'
 import Widget from '../../components/Widget'
 import If from '../../components/if'
 import { NotificacaoContext } from './../../contexts/notificacao';
+//import { logar } from '../../services/login'
+import * as loginService from '../../services/login'
 
 import './loginPage.css'
 
@@ -19,6 +21,24 @@ class LoginPage extends Component {
         const login = this.refs.login.value;
         const senha = this.refs.senha.value;
 
+        loginService.logar(login, senha)
+        .then(({ data, respostaOk }) => {
+            if (respostaOk)
+            {
+                this.context.setMensagem("Bem vindo!")
+                localStorage.setItem('token', data.token);
+                this.props.history.push('/');
+            }
+            else 
+            {
+                //console.log(data);
+                this.setState({
+                    errormessage: data.message
+                });
+            }               
+        })
+        .catch(err => console.log(err));;
+/* 
         //IE 6 -> axios
         fetch(
             'https://api-twitelum.herokuapp.com/login',
@@ -46,7 +66,7 @@ class LoginPage extends Component {
                     errormessage: data.message
                 });
             }        
-        }).catch(err => console.log(err));
+        }).catch(err => console.log(err)); */
     }
 
     render() {

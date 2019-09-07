@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import navMenuStyles from "./navMenu.module.css";
 import { Link } from 'react-router-dom';
 
-export default class NavMenu extends Component {
+import navMenuStyles from "./navMenu.module.css";
 
+export default class NavMenu extends Component {
   render() {
     return (
       <nav className={navMenuStyles.navMenu}>
@@ -25,7 +25,11 @@ export default class NavMenu extends Component {
             </Link>
           </li>
           <li className={navMenuStyles.navMenu__item}>
-            <Link className={navMenuStyles.navMenu__link} to="/logout">
+            <Link
+              className={navMenuStyles.navMenu__link}
+              to="/login"
+              // onClick={() => localStorage.removeItem('token')}
+            >
               Logout
             </Link>
           </li>

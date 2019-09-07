@@ -30,28 +30,50 @@ import reduxThunk from 'redux-thunk';
 //   }
 // }
 
-const stateInicial = {
-  lista: [],
-  tweetSelecionado: ''
-};
+// const stateInicial = {
+//   lista: [],
+//   tweetSelecionado: ''
+// };
 
-function tweetsReducer (store = stateInicial, action) {
-  switch (action.type) {
-    case 'tweets/atualizaLista':
-      return {
-        ...store,
-        lista: action.listaDeTweets
-      };
+// function tweetsReducer (store = stateInicial, action) {
+//   switch (action.type) {
+//     case 'tweets/atualizaLista':
+//       return {
+//         ...store,
+//         lista: action.listaDeTweets
+//       };
 
-    case 'tweets/novoTweet':
-      return {
-        ...store,
-        lista: [action.tweetCriado, ...store.lista]
-      };
+//     case 'tweets/novoTweet':
+//       return {
+//         ...store,
+//         lista: [action.tweetCriado, ...store.lista]
+//       };
+      
+//     case 'tweets/apaga':
+//       return {
+//         ...store,
+//         lista: store.lista
+//           .filter(tweet => tweet._id !== action.tweetId)
+//       };
+  
 
-    default:
-      return store;
+//     default:
+//       return store;
+//   }
+// }
+
+import { reduceHandler, stateInicial } from './ducks/tweets';
+
+function tweetsReducer (state = stateInicial, action) {
+  const actionType = action.type;
+
+  console.log(actionType);
+
+  if (reduceHandler[actionType]){
+    return reduceHandler[actionType](state, action);
   }
+
+  return state;
 }
 
 const store = createStore(

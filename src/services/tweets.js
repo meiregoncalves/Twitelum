@@ -1,6 +1,8 @@
 import config from '../config';
 
-export function criaTweet({ token, conteudo }) {
+export function criaTweet (conteudo) {
+  const token = localStorage.getItem('token');
+
   return fetch(`${config.api}/tweets?X-AUTH-TOKEN=${token}`, {
   // return fetch(`https://api-twitelum.herokuapp.com/tweets?X-AUTH-TOKEN=${token}`, {
     method: 'POST',
@@ -8,7 +10,9 @@ export function criaTweet({ token, conteudo }) {
   }).then(response => response.json());
 }
 
-export function listaTweets(token) {
+export function listaTweets() {
+  const token = localStorage.getItem('token');
+
   return fetch(`${config.api}/tweets?X-AUTH-TOKEN=${token}`)
   // return fetch(`https://api-twitelum.herokuapp.com/tweets?X-AUTH-TOKEN=${token}`)
     .then(response => response.json());
@@ -19,7 +23,9 @@ export function listaTweets(token) {
     // });
 }
 
-export function curtirTweet({ token, tweetId }) {
+export function curtirTweet({ tweetId }) {
+  const token = localStorage.getItem('token');
+
   return fetch(`${config.api}/tweets/${tweetId}/like?X-AUTH-TOKEN=${token}`, {
   // return fetch(`https://api-twitelum.herokuapp.com/tweets/${tweetId}/like?X-AUTH-TOKEN=${token}`, {
     method: 'POST'
@@ -27,7 +33,9 @@ export function curtirTweet({ token, tweetId }) {
   // }).then(response => { return response.json(); });
 }
 
-export function deleteTweet({ token, tweetId }) {
+export function deleteTweet({ tweetId }) {
+  const token = localStorage.getItem('token');
+
   return fetch(`${config.api}/tweets/${tweetId}?X-AUTH-TOKEN=${token}`, {
     method: 'DELETE'
   }).then(response => response.json());
